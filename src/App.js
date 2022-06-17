@@ -10,7 +10,16 @@ function App() {
   console.log(
     moment("2011-10:31 0923", "YYYYMMDD HHmm").format("YYYY/MM/DD --- HH:mm")
   );
-  return <>{user ? <Login /> : <Dashboard />}</>;
+  return (
+    <>
+      {
+        // user ?
+        <Login />
+
+        // : <Dashboard />
+      }
+    </>
+  );
 }
 
 export default App;

@@ -3,24 +3,29 @@ import { otherServices } from "../../services/otherServices";
 import { useOrder } from "../../contexts/OrderContext";
 import { List, Row, Col, Divider } from "antd";
 import "../../style/menuStyle/orders.css";
+import userEvent from "@testing-library/user-event";
 export default function Orders() {
   const [order, setOrder] = useOrder();
-  useEffect(() => {
-    otherServices
-      .getAllOrders()
-      .then((e) => e.json())
-      .then((e) => setOrder(e.Orders));
-  }, []);
+  // useEffect(() => {
+  //   fetch("https://dev-api.mstars.mn/api/orders?page=1",{
+  //     method : "POST",
+  //     headers:{
+  //       "Content-type" : "application/json"
+  //     },
+  //     body : JSON.stringify({token : user.token})
+  //   })
+  //     .then((e) => e.json())
+  //     .then((e) => setOrder(e.Orders));
+  // }, []);
 
   console.log(order);
-  
 
   return (
     <div>
       <Divider orientation="left">Захиалгууд</Divider>
       <List
         header={
-          <div className="order-header d-flex justify-content-between w-100 px-2">
+          <div className="order-header ">
             <input type="checkbox" className="check" />
             <span>Он сар өдөр</span>
             <span>Захиалга #</span>
@@ -37,23 +42,23 @@ export default function Orders() {
         bordered
         dataSource={order}
         renderItem={(item) => {
-          let total = 0
-           item.order.map((food)=>{
-                      total = parseInt(total + food.price * food.quantity)
-                      console.log(food.price * food.quantity);  
-                        return total
-                    })
+          let total = 0;
+          item.order.map((food) => {
+            total = parseInt(total + food.price * food.quantity);
+            console.log(food.price * food.quantity);
+            return total;
+          });
           return (
             <>
               <List.Item className="listItems">
-                <Row className="rowss w-100 d-flex justify-content-between flex-nowrap px-2">
+                <Row className="rowss">
                   {/* <Col span={4}>{item.customer}</Col>
                   <Col span={4}>{item.number}</Col>
                   <Col span={4}>{item.customer}</Col>
                   <Col span={4}>{item.customer}</Col>
                   <Col span={4}>{item.customer}</Col>
                   <Col span={4}>{item.customer}</Col> */}
-                  <input type="checkbox" className="check"/>
+                  <input type="checkbox" className="check" />
                   <Col
                     className="cols"
                     // xs={{ span: 5, offset: 1 }}
@@ -75,44 +80,22 @@ export default function Orders() {
                   >
                     {item.customer}
                   </Col>
-                  <Col
-                    className="cols"
-                   
-                  >
-                    {[item.order[0].name , ' ' , item.order[1].name].slice(0 ,1)}
+                  <Col className="cols">
+                    {[item.order[0].name, " ", item.order[1].name].slice(0, 1)}
                   </Col>
-                  <Col
-                    className="cols"
-                    
-                  >
-                    {[total , '₮']}
-                  </Col>
-                  <Col
-                    className="cols"
-                    
-                  >
-                    {item.payment}
-                  </Col>
-                  <Col
-                    className="cols"
-                    
-                  >
-                    {item.phone}
-                  </Col>
-                  <Col
-                    className="cols"
-                    
-                  >
-                    
-                   <button className="state-btn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                     
+                  <Col className="cols">{[total, "₮"]}</Col>
+                  <Col className="cols">{item.payment}</Col>
+                  <Col className="cols">{item.phone}</Col>
+                  <Col className="cols">
+                    <button
+                      className="state-btn"
+                      type="button"
+                      id="dropdownMenuButton1"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                    >
                       {item.state}
-                     </button>
-                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                      <li><a class="dropdown-item" href="#" id="state-suc">Амжилттай</a></li>
-                      <li><a class="dropdown-item" href="#" id="state-dec">Цуцлагдсан</a></li>
-  
-                    </ul>
+                    </button>
                   </Col>
                   <img src="pictures/icons/setting.svg" alt="" />
                 </Row>

@@ -14,7 +14,7 @@ import Icons from "../pictures/icons/icons.js";
 import { MENU } from "../util/constants";
 
 export default function Dashboard() {
-  const {  Content, Footer, Sider } = Layout;
+  const { Content, Footer, Sider } = Layout;
   return (
     <>
       <Layout style={{ margin: "0" }}>

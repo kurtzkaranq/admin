@@ -1,9 +1,32 @@
 import React from "react";
-import { Form, Input, Button, Checkbox } from "antd";
+import { Form, Input, Button, Checkbox, Col } from "antd";
 import "../style/login.css";
+import { useUser } from "../contexts/UserContext";
+import { userService } from "../services/userService";
 export default function Login() {
+  const { user, setUser } = useUser();
   const onFinish = (values) => {
-    console.log("Success:", values);
+    setLoading(true);
+    // console.log("Success:", values);
+    userService
+      .loginUser(values)
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.success === true) {
+          console.log(res);
+          setUser({
+            name: res.data.name,
+            email: res.data.email,
+            address: res.data.address,
+            id: res.data.id,
+            phone: res.data.phone,
+            token: res.token,
+          });
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -29,6 +52,10 @@ export default function Login() {
           onFinishFailed={onFinishFailed}
           autoComplete="off"
         >
+          <Col className="form-title" span={24}>
+            <img src="pictures/logo.svg" alt="" />
+            <h1 span={24}>MStars Food Delivery</h1>
+          </Col>
           <Form.Item
             label="Username"
             name="username"
